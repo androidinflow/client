@@ -6,20 +6,19 @@
 	import { user } from '$lib/stores/user.store';
 </script>
 
-<div class="min-h-screen hero md:-mt-20 lg:-mt-20">
-	<div class="text-center hero-content">
-		<div class="max-w-md">
-			<h1 class="text-5xl font-bold">Welcome!</h1>
-			<!-- <p class="py-6">Put some site information here!</p> -->
-			{#if $user}
-			<br>
-			<p>{$user.username}</p>
-			<br>
-				<button class="btn btn-primary" on:click={() => goto('/account/profile')}>Profile</button>
-			{:else}
-				<button class="mr-4 btn btn-primary" on:click={() => goto('/account/login')}>Login</button>
-				<button class="btn btn-primary" on:click={() => goto('/account/register')}>Register</button>
-			{/if}
-		</div>
+<div class="min-h-screen bg-gradient-to-b from-blue-500 to-purple-600 flex items-center justify-center">
+	<div class="text-center text-white p-8 max-w-3xl">
+		<h1 class="text-6xl font-bold mb-6">Welcome to Our Platform</h1>
+		<p class="text-xl mb-8">Discover amazing features and connect with others in our community.</p>
+		
+		{#if $user}
+			<p class="text-2xl mb-6">Hello, {$user.username}!</p>
+			<button class="btn btn-primary btn-lg" on:click={() => goto('/account/profile')}>View Your Profile</button>
+		{:else}
+			<div class="space-x-4">
+				<button class="btn btn-primary btn-lg" on:click={() => goto('/account/login')}>Login</button>
+				<button class="btn btn-secondary btn-lg" on:click={() => goto('/account/register')}>Register</button>
+			</div>
+		{/if}
 	</div>
 </div>
