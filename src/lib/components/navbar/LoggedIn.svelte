@@ -2,7 +2,7 @@
 	export let avatar: string | undefined;
 </script>
 
-<div class="dropdown dropdown-end bg-red z-10">
+<div class="dropdown dropdown-end">
 	<div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
 		<div class="w-12 overflow-hidden rounded-full">
 			{#if avatar}
@@ -16,7 +16,7 @@
 			{/if}
 		</div>
 	</div>
-	<ul class="menu menu-md dropdown-content mt-3 z-[1] p-2 bg-base-100 shadow rounded-box w-52">
+	<ul class="menu menu-md dropdown-content mt-3 p-2 bg-base-100 shadow rounded-box w-52 bg-red z-10">
 		<li><a href="/account/profile">Profile</a></li>
 
 		<form action="/account/logout" method="POST">
