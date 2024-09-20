@@ -34,7 +34,7 @@
 			</button>
 		{:else}
 			<div class="space-x-4 mb-8">
-				<button class="btn btn-primary" on:click={() => goto('/account/login')}> Login </button>
+				<button class="btn btn-primary" on:click={() => goto('/account/login')}> Join the Community </button>
 			</div>
 		{/if}
 	</div>
