@@ -2,12 +2,12 @@
     import { onMount } from "svelte";
   
     export let className: string = "";
-    export let quantity: number = 100;
-    export let staticity: number = 50;
-    export let ease: number = 50;
+    export let quantity: number = 600;
+    export let staticity: number = 40;
+    export let ease: number = 20;
     export let size: number = 0.4;
     export const refresh: boolean = true;
-    export let color: string = "#ffffff";
+    export let color: string = "#8e44ad";
     export let vx: number = 0;
     export let vy: number = 0;
   
