@@ -9,15 +9,14 @@
 
 	export let data: PageData;
 	const image_url = 'https://end.redruby.one/api/files/posts/';
-	
+
 	import CardProduct from '$lib/components/CardProduct.svelte';
 </script>
 
 <div class="relative min-h-screen flex flex-col items-center justify-center">
-	<!-- <Particles className="absolute inset-0 z-0" refresh={true} />
- -->
+	<Particles className="absolute inset-0 z-0" refresh={true} />
+
 	<div class="z-10 text-center p-8 max-w-4xl">
-		
 		<h2 class="text-2xl sm:text-3xl md:text-4xl mb-8 text-primary">
 			Your ultimate destination for Counter-Strike 2 strategies, community, and more!
 		</h2>
@@ -30,7 +29,6 @@
 		{:else}
 			<div class="space-x-4 mb-8">
 				<button class="btn btn-primary" on:click={() => goto('/account/login')}> Login </button>
-				
 			</div>
 		{/if}
 	</div>
@@ -44,6 +42,7 @@
 					description={post.content.substring(0, 100) + '...'}
 					imageUrl={image_url + post.id + '/' + post.main_image}
 					buttonText="Read More"
+					on:click={() => goto(`/post/${post.id}`)}
 				/>
 			{/each}
 		</div>

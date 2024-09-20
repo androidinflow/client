@@ -1,5 +1,6 @@
 <script lang="ts">
     import { Motion, useMotionTemplate, useMotionValue } from "svelte-motion";
+    import { createEventDispatcher } from 'svelte';
     
     export let title: string = "Luxe";
     export let description: string = "Library of dark mode components to illuminate your applications with elegance and sophistication.";
@@ -9,6 +10,12 @@
     let mouseX = useMotionValue(0);
     let mouseY = useMotionValue(0);
     let background = useMotionTemplate`radial-gradient(200px circle at ${mouseX}px ${mouseY}px, rgba(51, 51, 51, 0.4), transparent 80%)`;
+
+    const dispatch = createEventDispatcher();
+
+    function handleClick() {
+        dispatch('click');
+    }
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
@@ -54,10 +61,11 @@
           {description}
         </p>
         <button
+          on:click={handleClick}
           class="inline-flex items-center justify-center gap-1 text-sm py-3 px-4 font-semibold bg-white text-black rounded-lg duration-300 hover:bg-white/70 w-full"
         >
           {buttonText}
-        </button>
+        </button>   
       </div>
     </div>
   </div>
