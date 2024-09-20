@@ -2,9 +2,9 @@
     import { page } from '$app/stores';
     import { onMount } from 'svelte';
     import { pocketbase } from '$lib/db/client';
-    import type { Record } from 'pocketbase';
 
-    let post: Record | null = null;
+
+    let post: any | null = null;
     let error: string | null = null;
     const IMAGE_URL = 'https://end.redruby.one/api/files/posts/';
 
@@ -18,6 +18,7 @@
     });
 
     $: imageUrl = post ? `${IMAGE_URL}${post.id}/${post.main_image}` : '';
+    $: otherImageUrls = post ? post.other_images.map((img: any) => `${IMAGE_URL}${post.id}/${img}`) : [];
 </script>
 
 <div class="container mx-auto px-4 py-8">
@@ -37,6 +38,22 @@
             <div class="mt-6">
                 <p>{post.content}</p>
             </div>
+            {#if otherImageUrls.length > 0}
+                <div class="mt-4">
+                    <h2 class="text-2xl font-bold mb-4">Other Images</h2>
+                    <div class="carousel max-w-xl h-64">
+                        {#each otherImageUrls as imgUrl, index}
+                            <div id="slide{index}" class="carousel-item relative w-full h-full">
+                                <img src={imgUrl} alt={`Additional image ${index + 1}`} class="w-full h-full object-cover rounded-lg shadow-lg" />
+                                <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
+                                    <a href="#slide{index === 0 ? otherImageUrls.length - 1 : index - 1}" class="btn btn-circle">❮</a> 
+                                    <a href="#slide{index === otherImageUrls.length - 1 ? 0 : index + 1}" class="btn btn-circle">❯</a>
+                                </div>
+                            </div>
+                        {/each}
+                    </div>
+                </div>
+            {/if}
         </article>
     {:else}
         <div class="flex justify-center items-center h-64">
