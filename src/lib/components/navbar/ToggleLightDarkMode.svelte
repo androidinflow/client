@@ -7,7 +7,7 @@
 	 */
 	import { onMount } from 'svelte';
 
-	const dark = 'luxury';
+	const dark = 'black';
 	const light = 'fantasy';
 
 	let currentTheme = light;
