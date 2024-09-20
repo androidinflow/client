@@ -2,7 +2,7 @@
 	export let avatar: string | undefined;
 </script>
 
-<div class="dropdown dropdown-end">
+<div class="dropdown dropdown-end bg-red z-10">
 	<div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
 		<div class="w-12 overflow-hidden rounded-full">
 			{#if avatar}
