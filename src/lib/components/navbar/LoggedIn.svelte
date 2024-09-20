@@ -16,13 +16,12 @@
 			{/if}
 		</div>
 	</div>
-	<ul class="menu menu-md dropdown-content mt-3 p-2 bg-base-100 shadow rounded-box w-52 bg-red z-10">
-		<li><a href="/account/profile">Profile</a></li>
-
-		<form action="/account/logout" method="POST">
-			<li>
-				<button type="submit">Logout</button>
-			</li>
-		</form>
+	<ul class="menu menu-md dropdown-content mt-3 p-2 shadow rounded-box w-52 z-[100] bg-base-100">
+		<li><a href="/account/profile">My Profile</a></li>
+		<li>
+			<form action="/account/logout" method="POST">
+				<button type="submit" class="w-full text-left">Logout</button>
+			</form>
+		</li>
 	</ul>
 </div>
