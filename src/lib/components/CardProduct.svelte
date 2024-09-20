@@ -19,7 +19,7 @@
       mouseX.set(e.clientX - left);
       mouseY.set(e.clientY - top);
     }}
-    class="group relative max-w-[350px] w-full overflow-hidden rounded-xl bg-neutral-950"
+    class="group relative w-full overflow-hidden rounded-xl bg-neutral-950"
 >
     <div
       class="absolute right-5 top-0 h-px w-80 bg-gradient-to-l from-transparent via-white/30 via-10% to-transparent"

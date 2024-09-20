@@ -20,35 +20,6 @@ export const load: PageServerLoad = async ({ locals }) => {
 
 export const actions = {
 	/**
-	 * Email and password auth.
-	 *
-	 * @param param0 (locals, request)
-	 * @returns
-	 */
-	login: async ({ locals, request }) => {
-		const data = Object.fromEntries(await request.formData()) as UserLogin;
-
-		try {
-			await locals.pocketbase.collection('users').authWithPassword(data.email, data.password);
-		} catch (err: any) {
-			const errorDetails: ErrorDetails = err.response;
-			// Here we parse the potential multiple errors that could occur and
-			// package them up to be returned as errors.
-			const errors: ErrorLoginUser = Object.entries(errorDetails.data).reduce<FormErrors>(
-				(acc, [key, { message }]) => {
-					acc[key] = message;
-					return acc;
-				},
-				{} as ErrorLoginUser
-			);
-			return fail(400, errors);
-		}
-
-		// Runs if no failures
-		throw redirect(307, '/');
-	},
-
-	/**
 	 * Google OAuth2
 	 *
 	 * We get the provider from list of possible providers (set in Pocketbase) by
