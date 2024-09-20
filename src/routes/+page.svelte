@@ -1,6 +1,7 @@
 <script lang="ts">
 	// Modules
 	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 
 	// Types and variables
 	import { user } from '$lib/stores/user.store';
@@ -11,7 +12,13 @@
 	const image_url = 'https://end.redruby.one/api/files/posts/';
 
 	import CardProduct from '$lib/components/CardProduct.svelte';
-	import MyBox from '$lib/components/MyBox.svelte';
+	import MyBox from '$lib/components/Hero.svelte';
+
+	$: filterCs = $page.url.searchParams.get('filterCs') === 'true';
+
+	function toggleFilter() {
+		goto(`?filterCs=${!filterCs}`, { replaceState: true });
+	}
 </script>
 
 <div class="relative min-h-screen flex flex-col items-center justify-center">
@@ -33,7 +40,13 @@
 	</div>
 
 	<div class="w-full max-w-6xl px-4">
-		<h2 class="text-3xl font-bold mb-6">Latest Posts</h2>
+		<div class="flex justify-between items-center mb-6">
+			<h2 class="text-3xl font-bold">Latest Posts</h2>
+			<div class="tabs tabs-boxed">
+				<button class="tab {!filterCs ? 'tab-active' : ''}" on:click={toggleFilter}>All Posts</button>
+				<button class="tab {filterCs ? 'tab-active' : ''}" on:click={toggleFilter}>CS only</button>
+			</div>
+		</div>
 		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 			{#each data.posts as post}
 				<CardProduct
