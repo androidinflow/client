@@ -13,6 +13,7 @@
 
 	import CardProduct from '$lib/components/CardProduct.svelte';
 	import MyBox from '$lib/components/Hero.svelte';
+	import Hero from '$lib/components/Hero.svelte';
 
 	$: filterCs = $page.url.searchParams.get('filterCs') === 'true';
 
@@ -24,7 +25,8 @@
 <div class="relative min-h-screen flex flex-col items-center justify-center">
 	<Particles className="absolute inset-0 z-0" refresh={true} />
 
-	<MyBox />
+	<Hero />
+	
 
 	<div class="z-10 text-center p-8 max-w-4xl">
 		{#if $user}

@@ -6,6 +6,7 @@
 
 	// Components
 	import Navbar from '$lib/components/navbar/Navbar.svelte';
+	
 
 	// Types and variables
 	import type { LayoutServerData } from './$types';
@@ -19,6 +20,7 @@
 
 
 <div class="bg-base-300">
+	
 	<Navbar></Navbar>
 	<slot />
 	<footer class="footer mt-4 footer-center bg-base-200 text-base-content rounded p-10">

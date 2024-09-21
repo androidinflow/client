@@ -102,6 +102,16 @@
 			{/if}
 		</div>
 		<div class="border-t border-gray-200"></div>
-		<div class="p-4 text-center">Profile information</div>
+		<div class="p-4 text-center">Profile information
+			<div class="flex flex-col gap-2">
+				{#if $user && $user.email}
+					<p class="text-lg">
+						<span class="font-semibold">Email:</span> <span class="text-primary">{$user.email}</span>
+					</p>
+				{:else}
+					<p class="text-lg text-gray-500">Email not available</p>
+				{/if}
+			</div>
+		</div>
 	</div>
 </div>

@@ -3,7 +3,6 @@
     import { Motion, useAnimation } from "svelte-motion";
   
     export let width = "fit-content";
-    export let boxColor = "#5046e6";
     export let duration = 0.5;
   
     //   Animation Controls
@@ -54,8 +53,7 @@
       let:motion
     >
       <div
-        style="background:{boxColor}"
-        class="absolute top-[4px] bottom-[4px] left-0 right-0 z-40"
+        class="absolute top-[4px] bottom-[4px] left-0 right-0 z-40 bg-primary"
         use:motion
       ></div>
     </Motion>
