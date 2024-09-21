@@ -1,5 +1,6 @@
 import type { PageServerLoad } from './$types';
-import { error } from '@sveltejs/kit';
+import { error, fail } from '@sveltejs/kit';
+import { user } from '$lib/stores/user.store';
 
 export const load: PageServerLoad = async ({ locals, url }) => {
     const filterCs = url.searchParams.get('filterCs') === 'true';
@@ -13,14 +14,64 @@ export const load: PageServerLoad = async ({ locals, url }) => {
             filter: filter
         });
 
+        // Fetch bookmarks for the current user
+        const bookmarks = await locals.pocketbase.collection('bookmarks').getFullList({
+            filter: `user = user.id`,
+            expand: 'post'
+        });
+
+        const bookmarkedPostIds = bookmarks.map(bookmark => bookmark?.expand?.post.id);
+
         return {
             posts: posts.items,
             totalPages: Math.ceil(posts.totalItems / perPage),
             currentPage: page,
-            filterCs
+            filterCs,
+            bookmarkedPostIds
         };
     } catch (err) {
         console.error('Error fetching posts:', err);
         throw error(500, 'Error fetching posts');
+    }
+};
+
+export const actions = {
+    toggleBookmark: async ({ request, locals }) => {
+        const data = await request.formData();
+        const postId = data.get('postId');
+
+        if (!locals.user) {
+            return fail(401, { message: 'You must be logged in to bookmark posts' });
+        }
+
+        try {
+            let existingBookmark;
+            try {
+                existingBookmark = await locals.pocketbase.collection('bookmarks').getFirstListItem(`user="${locals.user.id}" && post="${postId}"`);
+            } catch (err: unknown) {
+                // If the bookmark doesn't exist, this error is expected
+                if (typeof err === 'object' && err !== null && 'status' in err && err.status !== 404) {
+                    throw err;
+                }
+            }
+
+            if (existingBookmark) {
+                await locals.pocketbase.collection('bookmarks').delete(existingBookmark.id);
+            } else {
+                await locals.pocketbase.collection('bookmarks').create({
+                    user: locals.user.id,
+                    post: postId
+                });
+            }
+
+            return { success: true };
+        } catch (err: unknown) {
+            console.error('Error toggling bookmark:', err);
+            if (err instanceof Error) {
+                return fail(500, { message: 'Error toggling bookmark', error: err.message });
+            } else {
+                return fail(500, { message: 'Error toggling bookmark', error: 'An unknown error occurred' });
+            }
+        }
     }
 };

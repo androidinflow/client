@@ -2,6 +2,7 @@
 	// Modules
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
+	import { enhance } from '$app/forms';
 
 	// Types and variables
 	import { user } from '$lib/stores/user.store';
@@ -25,10 +26,16 @@
 	function changePage(newPage: number) {
 		goto(`?filterCs=${filterCs}&page=${newPage}`, { replaceState: true });
 	}
+
+	$: ({ posts, totalPages, bookmarkedPostIds } = data);
+
+	function isBookmarked(postId: string) {
+		return bookmarkedPostIds.includes(postId);
+	}
 </script>
 
 <div class="relative min-h-screen flex flex-col items-center justify-center">
-	<Particles className="absolute inset-0" refresh={true} />
+	<!-- <Particles className="absolute inset-0" refresh={true} /> -->
 	<Hero />
 	
 
@@ -41,14 +48,22 @@
 			</div>
 		</div>
 		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-			{#each data.posts as post}
-				<CardProduct
-					title={post.title.substring(0, 50) + '...'}
-					description={post.content.substring(0, 100) + '...'}
-					imageUrl={image_url + post.id + '/' + post.main_image}
-					buttonText="Read More"
-					on:click={() => goto(`/post/${post.id}`)}
-				/>
+			{#each posts as post}
+				<div class="relative">
+					<CardProduct
+						title={post.title.substring(0, 50) + '...'}
+						description={post.content.substring(0, 100) + '...'}
+						imageUrl={image_url + post.id + '/' + post.main_image}
+						buttonText="Read More"
+						on:click={() => goto(`/post/${post.id}`)}
+					/>
+					<form action="?/toggleBookmark" method="POST" use:enhance>
+						<input type="hidden" name="postId" value={post.id} />
+						<button type="submit" class="absolute top-2 right-2 text-2xl">
+							{isBookmarked(post.id) ? '★' : '☆'}
+						</button>
+					</form>
+				</div>
 			{/each}
 		</div>
 		
