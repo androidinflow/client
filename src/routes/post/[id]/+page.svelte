@@ -2,10 +2,17 @@
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import { pocketbase } from '$lib/db/client';
+	import { enhance } from '$app/forms';
+	export let data;
 
 	let post: any | null = null;
 	let error: string | null = null;
 	const IMAGE_URL = 'https://end.redruby.one/api/files/posts/';
+	$: ({ post, comments, user } = data);
+	$: mainImageUrl = post ? `${IMAGE_URL}${post.id}/${post.main_image}` : '';
+	$: additionalImageUrls = post
+		? post.other_images.map((img: string) => `${IMAGE_URL}${post.id}/${img}`)
+		: [];
 
 	onMount(async () => {
 		try {
@@ -75,4 +82,35 @@
 			<span class="loading loading-spinner loading-lg"></span>
 		</div>
 	{/if}
+
+	<!-- Comments section -->
+	<section class="mt-8">
+		<h2 class="text-2xl font-bold mb-4">Comments</h2>
+		{#each comments as comment}
+			<div class="mb-4 p-4 bg-gray-100 rounded flex justify-between items-start">
+				<div>
+					<p class="font-bold">{comment.expand?.user?.username}</p>
+					<p>{comment.content}</p>
+				</div>
+				{#if user && comment.user === user.id}
+					<form method="POST" action="?/removeComment" use:enhance>
+						<input type="hidden" name="commentId" value={comment.id} />
+						<button type="submit" class="text-red-500 hover:text-red-700">
+							Remove
+						</button>
+					</form>
+				{/if}
+			</div>
+		{/each}
+
+		<!-- Comment form -->
+		{#if user}
+			<form method="POST" action="?/addComment" use:enhance>
+				<textarea name="content" class="w-full p-2 border rounded" required></textarea>
+				<button type="submit" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded">Add Comment</button>
+			</form>
+		{:else}
+			<p>Please <a href="/account/login" class="text-blue-500 hover:underline">log in</a> to add a comment.</p>
+		{/if}
+	</section>
 </div>
