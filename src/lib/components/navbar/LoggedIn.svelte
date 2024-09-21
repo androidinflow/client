@@ -35,6 +35,7 @@
 	</div>
 	<ul class="menu menu-md dropdown-content mt-3 p-2 shadow rounded-box w-52 z-[100] bg-base-100">
 		<li><a href="/account/profile" class="w-full">My Profile</a></li>
+		<li><a href="/account/bookmarks" class="w-full">My bookmarkes</a></li>
 		<li>
 			<a href="/account/logout" class="w-full" on:click|preventDefault={handleLogout}>Logout</a>
 		</li>

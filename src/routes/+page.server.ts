@@ -5,7 +5,7 @@ import { user } from '$lib/stores/user.store';
 export const load: PageServerLoad = async ({ locals, url }) => {
     const filterCs = url.searchParams.get('filterCs') === 'true';
     const page = parseInt(url.searchParams.get('page') || '1', 10);
-    const perPage = 6; // Number of posts per page
+    const perPage = 5; // Number of posts per page
     
     try {
         const filter = filterCs ? 'cs = true' : '';

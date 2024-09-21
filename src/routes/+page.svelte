@@ -32,10 +32,41 @@
 	function isBookmarked(postId: string) {
 		return bookmarkedPostIds.includes(postId);
 	}
+
+	function generatePagination(currentPage: number, totalPages: number) {
+		const delta = 2;
+		const range = [];
+		const rangeWithDots = [];
+		let l;
+
+		range.push(1);
+
+		for (let i = currentPage - delta; i <= currentPage + delta; i++) {
+			if (i < totalPages && i > 1) {
+				range.push(i);
+			}
+		}
+
+		range.push(totalPages);
+
+		for (let i of range) {
+			if (l) {
+				if (i - l === 2) {
+					rangeWithDots.push(l + 1);
+				} else if (i - l !== 1) {
+					rangeWithDots.push('...');
+				}
+			}
+			rangeWithDots.push(i);
+			l = i;
+		}
+
+		return rangeWithDots;
+	}
 </script>
 
 <div class="relative min-h-screen flex flex-col items-center justify-center">
-	<!-- <Particles className="absolute inset-0" refresh={true} /> -->
+	<Particles className="absolute inset-0" refresh={true} />
 	<Hero />
 	
 
@@ -72,18 +103,27 @@
 
 
 	<!-- Pagination controls -->
-	<div class="flex justify-center mt-8 z-50">
-		<div class="flex space-x-2">
-			<button class="btn" disabled={data.currentPage === 1} on:click={() => changePage(data.currentPage - 1)}>
-				Previous
+	<div class="flex justify-center mt-5 z-50">
+		<div class="flex flex-wrap gap-2">
+			<button class="btn btn-xs" disabled={currentPage === 1} on:click={() => changePage(currentPage - 1)}>
+				&lt;
 			</button>
-			{#each Array(data.totalPages) as _, i}
-				<button class="btn {data.currentPage === i + 1 ? 'btn-active' : ''}" on:click={() => changePage(i + 1)}>
-					{i + 1}
-				</button>
+			
+			{#each generatePagination(currentPage, totalPages) as item}
+				{#if item === '...'}
+					<span class="btn btn-xs btn-disabled">...</span>
+				{:else}
+					<button 
+						class="btn btn-sm {currentPage === item ? 'btn-active' : ''}" 
+						on:click={() => changePage(Number(item))}
+					>
+						{item}
+					</button>
+				{/if}
 			{/each}
-			<button class="btn" disabled={data.currentPage === data.totalPages} on:click={() => changePage(data.currentPage + 1)}>
-				Next
+			
+			<button class="btn btn-xs" disabled={currentPage === totalPages} on:click={() => changePage(currentPage + 1)}>
+				&gt;
 			</button>
 		</div>
 	</div>
