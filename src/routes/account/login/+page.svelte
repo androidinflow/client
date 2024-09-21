@@ -6,9 +6,9 @@
 
 </script>
 
-<div class="flex flex-col items-center min-h-screen lg:mt-20 md:mt-20 ">
+<div class="flex flex-col items-center min-h-screen lg:mt-20 md:mt-20 p-6">
 
-	<div class="w-full max-w-md px-8 py-6 rounded-xl bg-base-100">
+	<div class="w-full max-w-md px-8 py-6 rounded-xl bg-base-100 ">
 		<h3 class="mt-4 mb-4 text-3xl font-bold text-center">Login</h3>
 
 

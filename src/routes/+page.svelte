@@ -16,30 +16,21 @@
 	import Hero from '$lib/components/Hero.svelte';
 
 	$: filterCs = $page.url.searchParams.get('filterCs') === 'true';
+	$: currentPage = parseInt($page.url.searchParams.get('page') || '1', 10);
 
 	function toggleFilter() {
-		goto(`?filterCs=${!filterCs}`, { replaceState: true });
+		goto(`?filterCs=${!filterCs}&page=1`, { replaceState: true });
+	}
+
+	function changePage(newPage: number) {
+		goto(`?filterCs=${filterCs}&page=${newPage}`, { replaceState: true });
 	}
 </script>
 
 <div class="relative min-h-screen flex flex-col items-center justify-center">
-	<Particles className="absolute inset-0 z-0" refresh={true} />
-
+	<Particles className="absolute inset-0" refresh={true} />
 	<Hero />
 	
-
-	<div class="z-10 text-center p-8 max-w-4xl">
-		{#if $user}
-			<p class="text-xl mb-6">Welcome back, {$user.username}!</p>
-			<button class="btn btn-primary mb-8" on:click={() => goto('/account/profile')}>
-				View Your Profile
-			</button>
-		{:else}
-			<div class="space-x-4 mb-8">
-				<button class="btn btn-primary" on:click={() => goto('/account/login')}> Join the Community </button>
-			</div>
-		{/if}
-	</div>
 
 	<div class="w-full max-w-6xl px-4">
 		<div class="flex justify-between items-center mb-6">
@@ -60,5 +51,26 @@
 				/>
 			{/each}
 		</div>
+		
+		
 	</div>
+
+
+	<!-- Pagination controls -->
+	<div class="flex justify-center mt-8 z-50">
+		<div class="flex space-x-2">
+			<button class="btn" disabled={data.currentPage === 1} on:click={() => changePage(data.currentPage - 1)}>
+				Previous
+			</button>
+			{#each Array(data.totalPages) as _, i}
+				<button class="btn {data.currentPage === i + 1 ? 'btn-active' : ''}" on:click={() => changePage(i + 1)}>
+					{i + 1}
+				</button>
+			{/each}
+			<button class="btn" disabled={data.currentPage === data.totalPages} on:click={() => changePage(data.currentPage + 1)}>
+				Next
+			</button>
+		</div>
+	</div>
+
 </div>

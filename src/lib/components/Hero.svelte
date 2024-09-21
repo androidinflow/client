@@ -1,5 +1,7 @@
-<script>
+<script lang="ts">
   import BoxReveal from "./BoxReveal.svelte";
+  import { goto } from '$app/navigation';
+  import { user } from '$lib/stores/user.store';
 </script>
 
 <div class="relative w-full h-full">
@@ -32,6 +34,20 @@
         Exclusive events
       </p>
     </div>
+  </BoxReveal>
 
+  <BoxReveal duration={0.5}>
+    <div class="z-10 text-center p-8 max-w-4xl">
+      {#if $user}
+        <p class="text-xl mb-6">Welcome back, {$user.username}!</p>
+        <button class="btn btn-primary mb-8" on:click={() => goto('/account/profile')}>
+          View Your Profile
+        </button>
+      {:else}
+        <div class="space-x-4 mb-8">
+          <button class="btn btn-primary" on:click={() => goto('/account/login')}> Join the Community </button>
+        </div>
+      {/if}
+    </div>
   </BoxReveal>
 </div>
