@@ -66,7 +66,7 @@
 </script>
 
 <div class="relative min-h-screen flex flex-col items-center justify-center">
-	<Particles className="absolute inset-0" refresh={true} />
+	<Particles className="absolute inset-0" />
 	<Hero />
 	
 
@@ -90,8 +90,8 @@
 					/>
 					<form action="?/toggleBookmark" method="POST" use:enhance>
 						<input type="hidden" name="postId" value={post.id} />
-						<button type="submit" class="absolute top-2 right-2 text-2xl">
-							{isBookmarked(post.id) ? '★' : '☆'}
+						<button type="submit" class="absolute top-2 right-2 text-3xl">
+							{isBookmarked(post.id) ? '💾' : '📌'}
 						</button>
 					</form>
 				</div>

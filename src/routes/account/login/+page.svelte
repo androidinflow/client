@@ -1,22 +1,19 @@
 <script lang="ts">
-	import Particles from "$lib/components/Particles.svelte";
+	import Particles from '$lib/components/Particles.svelte';
+	import { page } from '$app/stores';
 
-
-
-
+	// Get the error message from the URL, if any
+	$: errorMessage = $page.url.searchParams.get('error');
 </script>
 
 <div class="flex flex-col items-center min-h-screen lg:mt-20 md:mt-20 p-6">
-
-	<div class="w-full max-w-md px-8 py-6 rounded-xl bg-base-100 ">
+	<div class="w-full max-w-md px-8 py-6 rounded-xl bg-base-100">
 		<h3 class="mt-4 mb-4 text-3xl font-bold text-center">Login</h3>
 
-
-		<form action="?/google" class="gap-2 p-4 rounded form-control " method="POST">
-			
+		<form action="?/google" class="gap-2 p-4 rounded form-control" method="POST">
 			<button
 				aria-label="Sign in with Google"
-				class="flex items-center gap-3 bg-primary rounded-full p-0.5 "
+				class="flex items-center gap-3 bg-primary rounded-full p-0.5"
 			>
 				<div class="flex items-center justify-center bg-white w-9 h-9 rounded-full">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-5 h-5">
@@ -44,4 +41,22 @@
 			</button>
 		</form>
 	</div>
+
+	{#if errorMessage}
+		<div class="flex items-center mt-4 p-2  text-red-400 rounded-lg">
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				class="stroke-current shrink-0 h-6 w-6 mr-3"
+				fill="none"
+				viewBox="0 0 24 24"
+				><path
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					stroke-width="2"
+					d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+				/></svg
+			>
+			<span>{errorMessage}</span>
+		</div>
+	{/if}
 </div>

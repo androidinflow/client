@@ -1,5 +1,5 @@
 import type { PageServerLoad } from './$types';
-import { error, fail } from '@sveltejs/kit';
+import { error, fail, redirect } from '@sveltejs/kit';
 import { user } from '$lib/stores/user.store';
 
 export const load: PageServerLoad = async ({ locals, url }) => {
@@ -41,7 +41,8 @@ export const actions = {
         const postId = data.get('postId');
 
         if (!locals.user) {
-            return fail(401, { message: 'You must be logged in to bookmark posts' });
+            // Redirect to login page with error message
+            throw redirect(303, '/account/login?error=You must be logged in to bookmark posts!');
         }
 
         try {
